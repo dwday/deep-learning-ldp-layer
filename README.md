@@ -14,3 +14,17 @@
     
 ## Example test model that uses four directions:
 ![alt text](images/model1.png)
+
+
+Akgun, Devrim. "TensorFlow based deep learning layer for Local Derivative Patterns." Software Impacts 14 (2022): 100452.
+
+
+@article{akgun2022tensorflow,
+  title={TensorFlow based deep learning layer for Local Derivative Patterns},
+  author={Akgun, Devrim},
+  journal={Software Impacts},
+  volume={14},
+  pages={100452},
+  year={2022},
+  publisher={Elsevier}
+}
