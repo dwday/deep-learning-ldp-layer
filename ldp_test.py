@@ -4,6 +4,10 @@
 Example training  file using LDP layers
 *Cifar10 dataset has been used  the for toy example 
 *Replace with your model and dataset
+
+Akgun, Devrim. "TensorFlow based deep learning layer for Local Derivative Patterns." 
+Software Impacts 14 (2022): 100452.
+https://www.sciencedirect.com/science/article/pii/S2665963822001361
 """
 
 
