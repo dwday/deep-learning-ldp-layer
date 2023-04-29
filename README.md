@@ -1,6 +1,8 @@
 # A custom TensorFlow layer for local derivative patterns 
 [Akgun, Devrim. "TensorFlow based deep learning layer for Local Derivative Patterns." Software Impacts 14 (2022): 100452 https://doi.org/10.1016/j.simpa.2022.100452](https://www.sciencedirect.com/science/article/pii/S2665963822001361)
-Abstract: Deep learning architectures can extract features automatically via particular layers such as convolutions, recurrent networks, and pooling operations. In addition to the predefined layers in TensorFlow, developers can implement their custom layers based on the existing operators. This study presents a new library for using the Local Derivative Pattern (LDP) algorithm as a deep learning layer. The LDP layer has no trainable parameters and extracts the local patterns in four directions. The layer’s output provides the features to the following layers separately or combined. The developed library enables integrating LDP into any desired model that works with two-dimensional input data.
+
+#Abstract: 
+Deep learning architectures can extract features automatically via particular layers such as convolutions, recurrent networks, and pooling operations. In addition to the predefined layers in TensorFlow, developers can implement their custom layers based on the existing operators. This study presents a new library for using the Local Derivative Pattern (LDP) algorithm as a deep learning layer. The LDP layer has no trainable parameters and extracts the local patterns in four directions. The layer’s output provides the features to the following layers separately or combined. The developed library enables integrating LDP into any desired model that works with two-dimensional input data.
 
 
 ## Example usages:
