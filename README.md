@@ -23,13 +23,13 @@ Abstract: Deep learning architectures can extract features automatically via par
 ![alt text](images/cifar10.png)
 ##  Mean LDP features:
 ![alt text](images/ldp_combined.png)
-##  Mean LDP 0 features:
+##  LDP 0 features:
 ![alt text](images/ldp_0.png)
-##  Mean LDP 45 features:
+##  LDP 45 features:
 ![alt text](images/ldp_45.png)
-##  Mean LDP 90 features:
+##  LDP 90 features:
 ![alt text](images/ldp_90.png)
-##  Mean LDP 135 features:
+##  LDP 135 features:
 ![alt text](images/ldp_135.png)
 
 @article{akgun2022tensorflow,
