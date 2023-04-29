@@ -15,13 +15,14 @@ Abstract: Deep learning architectures can extract features automatically via par
 ### Separate features:   
   x = LDP(mode='multi')(x)    
   
-## Example test model that uses four directions:
-![alt text](images/model1.png)
 
 
 ## Processing Cifar10 dataset with LBP:
 ### Replace Cifar10 with your dataset for processing in the example file cifar_text.py
 ![alt text](images/cifar10_ldb.png)
+
+## Example test model that uses four directions:
+![alt text](images/model1.png)
 
 ##  LDP 0 features:
 ![alt text](images/ldp_0.png)
