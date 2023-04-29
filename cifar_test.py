@@ -3,9 +3,9 @@
 """
 Example ldp application on Cifar10 using TensorFlow
 
-
-
-
+Akgun, Devrim. "TensorFlow based deep learning layer for Local Derivative Patterns." 
+Software Impacts 14 (2022): 100452.
+https://www.sciencedirect.com/science/article/pii/S2665963822001361
 """
 from tensorflow.keras.datasets import cifar10
 from tensorflow.keras import layers
