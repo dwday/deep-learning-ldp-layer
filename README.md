@@ -16,8 +16,7 @@
 ![alt text](images/model1.png)
 
 
-Akgun, Devrim. "TensorFlow based deep learning layer for Local Derivative Patterns." Software Impacts 14 (2022): 100452.
-
+[Akgun, Devrim. "TensorFlow based deep learning layer for Local Derivative Patterns." Software Impacts 14 (2022): 100452.. DOI:10.22531/muglajsci.830691](https://www.sciencedirect.com/science/article/pii/S2665963822001361)
 
 @article{akgun2022tensorflow,
   title={TensorFlow based deep learning layer for Local Derivative Patterns},
