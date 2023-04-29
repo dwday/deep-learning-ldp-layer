@@ -18,7 +18,8 @@ Abstract: Deep learning architectures can extract features automatically via par
 ![alt text](images/model1.png)
 
 
-## Using LDP for feature extraction:
+## Using LDP for processing Cifar10:
+Replace Cifar10 with your dataset for processing in the example file #cifar_text.py
 ![alt text](images/cifar10.png)
 ##  Mean LDP features:
 ![alt text](images/ldp_combined.png)
