@@ -1,12 +1,75 @@
 # -*- coding: utf-8 -*-
 """
 Local derivative patterns implementation using custom layer definitions
-"""
 
+Akgun, Devrim. "TensorFlow based deep learning layer for Local Derivative Patterns." 
+Software Impacts 14 (2022): 100452.
+https://www.sciencedirect.com/science/article/pii/S2665963822001361
+"""
 
 import tensorflow as tf
 from keras import layers
 
+
+class LDP(layers.Layer):
+    
+    # Initialize variables
+    def __init__(self,mode='single',alpha='0',**kwargs): 
+        self.mode=mode
+        self.alpha=alpha        
+        super(LDP,self).__init__(**kwargs)
+        
+    
+    def build(self, input_shape):
+        super(LDP,self).build(input_shape)
+    
+   
+    def call(self, x):      
+        
+        if  self.mode=='single'  and  self.alpha=='0':
+            z=tf_ldp0(x)
+        elif self.mode=='single' and  self.alpha=='45':
+            z=tf_ldp45(x)
+        elif self.mode=='single' and  self.alpha=='90':
+            z=tf_ldp90(x)
+        elif self.mode=='single' and  self.alpha=='135':
+            z=tf_ldp135(x)  
+        elif self.mode=='multi':
+            # compute all features
+            z1=tf_ldp0(x)
+            z2=tf_ldp45(x)
+            z3=tf_ldp90(x)
+            z4=tf_ldp135(x) 
+            # concatenate all features
+            z=tf.concat([z1,z2,z3,z4],axis=1)     
+            
+        elif self.mode=='mean':   
+            # compute all features
+            z1=tf_ldp0(x)
+            z2=tf_ldp45(x)
+            z3=tf_ldp90(x)
+            z4=tf_ldp135(x) 
+            
+            # sum featureas
+            z=tf.add(z1,z2)
+            z=tf.add(z,z3)
+            z=tf.add(z,z4)
+            # compute mean
+            z=tf.divide(z,tf.constant(4.0))           
+            
+        else:
+            print('Warning: wrong input parameters. Defaults to LDP(alpha=0)')
+            z=tf_ldp0(x)                 
+            
+        return tf.cast(z,dtype=tf.float32) 
+       
+    def compute_output_shape(self,input_shape):
+        assert isinstance(input_shape,list)
+        b=input_shape
+        # height=b[1]
+        # width=b[2]
+        out1=(b[0],b[1],b[2],b[3])
+        return out1  
 
 #******************************************************************************
 def tf_ldp0(Im):
@@ -17,12 +80,7 @@ def tf_ldp0(Im):
     M=Im.shape[1]
     N=Im.shape[2]   
     
-    #select elements within theneigbourhood
-    # y00=Im[:,0:M-3, 0:N-3,:]
-    # y01=Im[:,0:M-3, 1:N-2,:]
-    # y02=Im[:,0:M-3, 2:N-1,:]
-    # y03=Im[:,0:M-3, 3:N  ,:]
-    #     
+    #select elements within the neigbourhood    
     y10=Im[:,1:M-2, 0:N-3,:]
     y11=Im[:,1:M-2, 1:N-2,:]
     y12=Im[:,1:M-2, 2:N-1,:]
@@ -376,48 +434,4 @@ def tf_ldp135(Im):
     
     z=tf.cast(z,dtype=tf.float32)/255.0
     return z
-#------------------------------------------------------------------------------
 
-class LDP(layers.Layer):
-    
-    # Initialize variables
-    def __init__(self,mode='single',alpha='0',**kwargs): 
-        self.mode=mode
-        self.alpha=alpha        
-        super(LDP,self).__init__(**kwargs)
-        
-    
-    def build(self, input_shape):
-        super(LDP,self).build(input_shape)
-    
-   
-    def call(self, x):      
-        
-        if  self.mode=='single'  and  self.alpha=='0':
-            z=tf_ldp0(x)
-        elif self.mode=='single' and  self.alpha=='45':
-            z=tf_ldp45(x)
-        elif self.mode=='single' and  self.alpha=='90':
-            z=tf_ldp90(x)
-        elif self.mode=='single' and  self.alpha=='135':
-            z=tf_ldp135(x)  
-        elif self.mode=='multi':
-            z1=tf_ldp0(x)
-            z2=tf_ldp45(x)
-            z3=tf_ldp90(x)
-            z4=tf_ldp135(x) 
-            z=tf.concat([z1,z2,z3,z4],axis=1)            
-        else:
-            print('Warning: wrong input parameters. Defaults to LDP(alpha=0)')
-            z=tf_ldp0(x)                 
-            
-        return tf.cast(z,dtype=tf.float32) 
-       
-    def compute_output_shape(self,input_shape):
-        assert isinstance(input_shape,list)
-        b=input_shape
-        # height=b[1]
-        # width=b[2]
-        out1=(b[0],b[1],b[2],b[3])
-        return out1  
-#------------------------------------------------------------------------------
