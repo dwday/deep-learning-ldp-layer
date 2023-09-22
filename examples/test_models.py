@@ -8,9 +8,9 @@ from tensorflow.keras import layers, optimizers
 from tensorflow.keras.models import Model
 from pattern.layers import LDP
 
-def test_model1(W=32, H=32,nclass=10):
+def test_model1(W=32, H=32,nclass=10,nchannel=3):
     
-    in1 = layers.Input(shape=(W, H, 3))
+    in1 = layers.Input(shape=(W, H, nchannel))
 
     x1 = layers.Conv2D(8, (1, 1), strides=(1, 1),
                        padding='valid',
@@ -27,6 +27,9 @@ def test_model1(W=32, H=32,nclass=10):
     x4 = layers.Conv2D(8, (1, 1), strides=(1, 1),
                        padding='valid',
                        activation='relu')(in1)
+    x5 = layers.Conv2D(8, (1, 1), strides=(1, 1),
+                       padding='valid',
+                       activation='relu')(in1)
     
     x1 = LDP(mode='single', alpha='0')(x1)
     
@@ -36,7 +39,7 @@ def test_model1(W=32, H=32,nclass=10):
     
     x4 = LDP(mode='single',alpha='135')(x4)
   
-    x = layers.Concatenate()([x1,x2,x3,x4])
+    x = layers.Concatenate()([x1,x2,x3,x4,x5])
     
   
     x = layers.Conv2D(64, (3, 3), strides=(1, 1),
@@ -62,8 +65,7 @@ def test_model1(W=32, H=32,nclass=10):
     output = layers.Dense(nclass, activation='softmax')(x)
     
     model = Model(inputs=in1, outputs=output)
-    
-    
+       
     
     model.compile(loss='categorical_crossentropy',
                   optimizer=optimizers.Adam(lr=1e-4),
@@ -71,11 +73,11 @@ def test_model1(W=32, H=32,nclass=10):
     return model
 
 
-def test_model2(W=32, H=32,nclass=10):
+def test_model2(W=32, H=32,nclass=10,nchannel=3):
     
-    in1 = layers.Input(shape=(W, H, 3))
+    in1 = layers.Input(shape=(W, H, nchannel))
 
-    x = layers.Conv2D(8, (1, 1), strides=(1, 1),
+    x = layers.Conv2D(40, (1, 1), strides=(1, 1),
                        padding='valid',
                        activation='relu')(in1)
 
@@ -109,7 +111,7 @@ def test_model2(W=32, H=32,nclass=10):
     
     
     
-    model.compile(loss='categorical_crossentropy',
-                  optimizer=optimizers.Adam(lr=1e-4),
+    model.compile(loss ='categorical_crossentropy',
+                  optimizer =optimizers.Adam(lr=1e-4),
                   metrics=['acc'])
     return model
