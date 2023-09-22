@@ -1,6 +1,18 @@
 # A custom TensorFlow layer for local derivative patterns 
 [Akgun, Devrim. "TensorFlow based deep learning layer for Local Derivative Patterns." Software Impacts 14 (2022): 100452 https://doi.org/10.1016/j.simpa.2022.100452](https://www.sciencedirect.com/science/article/pii/S2665963822001361)
 
+## Example evaluation on Cifar10:
+
+##  Training results:
+![alt text](images/hist_train.png)
+##  Validation results:
+![alt text](images/hist_loss.png)
+
+##  Evaluation on test dataset:
+test acc for model_ldp :  0.708899974822998
+
+test acc for model_base:  0.6478000283241272
+
 ## Example usages:
 ### Separately:
   x1 = LDP(mode='single', alpha='0')(x1)    
@@ -14,7 +26,7 @@
   
 
 
-## Processing Cifar10 dataset with LBP:
+## Processing Cifar10 dataset with LDP:
 ### Replace Cifar10 with your dataset for processing in the example file cifar_text.py
 ![alt text](images/cifar10_ldb.png)
 
