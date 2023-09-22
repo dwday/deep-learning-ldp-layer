@@ -3,12 +3,12 @@
 
 ## Example evaluation on Cifar10:
 
-##  Training results:
+###  Training results:
 ![alt text](images/hist_train.png)
-##  Validation results:
+###  Validation results:
 ![alt text](images/hist_loss.png)
 
-##  Evaluation on test dataset:
+###  Evaluation on test dataset:
 test acc for model_ldp :  0.708899974822998
 
 test acc for model_base:  0.6478000283241272
