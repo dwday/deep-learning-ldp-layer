@@ -1,7 +1,7 @@
 # A custom TensorFlow layer for local derivative patterns 
 [Akgun, Devrim. "TensorFlow based deep learning layer for Local Derivative Patterns." Software Impacts 14 (2022): 100452 https://doi.org/10.1016/j.simpa.2022.100452](https://www.sciencedirect.com/science/article/pii/S2665963822001361)
 
-## Example evaluation on Cifar10:
+## Example evaluation on Cifar10: ldp_test.py
 
 ###  Training results:
 ![alt text](images/hist_train.png)
