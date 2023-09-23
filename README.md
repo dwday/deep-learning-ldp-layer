@@ -1,6 +1,8 @@
 # A custom TensorFlow layer for local derivative patterns 
-[Akgun, Devrim. "TensorFlow based deep learning layer for Local Derivative Patterns." Software Impacts 14 (2022): 100452 https://doi.org/10.1016/j.simpa.2022.100452](https://www.sciencedirect.com/science/article/pii/S2665963822001361)
 
+This repository contains the Local Derivative Patterns as a Deep Learning layer implemented in the paper. The toy example on Cifar 10 compares a model with LDP layers and a baseline model with more trainable parameters. For details check the paper below:
+
+[Akgun, Devrim. "TensorFlow based deep learning layer for Local Derivative Patterns." Software Impacts 14 (2022): 100452 https://doi.org/10.1016/j.simpa.2022.100452](https://www.sciencedirect.com/science/article/pii/S2665963822001361)
 ## Example evaluation on Cifar10: ldp_test.py
 
 ###  Training results:
