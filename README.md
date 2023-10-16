@@ -1,9 +1,7 @@
 # A custom TensorFlow layer for local derivative patterns 
 
-This repository contains the Local Derivative Patterns as a Deep Learning layer implemented in the paper. The toy example on Cifar 10 compares a model with LDP layers and a baseline model with more trainable parameters. For details check the paper below:
-
-[Akgun, Devrim. "TensorFlow based deep learning layer for Local Derivative Patterns." Software Impacts 14 (2022): 100452 https://doi.org/10.1016/j.simpa.2022.100452](https://www.sciencedirect.com/science/article/pii/S2665963822001361)
-## Example evaluation on Cifar10: ldp_test.py
+This repository contains the Local Derivative Patterns as a Deep Learning layer implemented in the paper. The example on LFW - Labeled Faces in the Wild dataset compares a model with LDP layers and a baseline CNN model. 
+## Example evaluation on LFW - Labeled Faces in the Wild dataset: ldp_test.py
 
 ###  Training results:
 ![alt text](images/hist_train.png)
@@ -11,9 +9,9 @@ This repository contains the Local Derivative Patterns as a Deep Learning layer 
 ![alt text](images/hist_loss.png)
 
 ###  Evaluation on test dataset:
-test acc for model_ldp :  0.708899974822998
+test acc for model_ldp :  0.9031
 
-test acc for model_base:  0.6478000283241272
+test acc for model_base:  0.8875
 
 ## Example usages:
 ### Separately:
@@ -26,14 +24,9 @@ test acc for model_base:  0.6478000283241272
 ### Separate features:   
   x = LDP(mode='multi')(x)    
   
-
-
 ## Processing Cifar10 dataset with LDP:
 ### Replace Cifar10 with your dataset for processing in the example file cifar_text.py
 ![alt text](images/cifar10_ldb.png)
-
-## Example test model that uses four directions:
-![alt text](images/model1.png)
 
 ##  LDP 0 features:
 ![alt text](images/ldp_0.png)
@@ -44,12 +37,11 @@ test acc for model_base:  0.6478000283241272
 ##  LDP 135 features:
 ![alt text](images/ldp_135.png)
 
-@article{akgun2022tensorflow,
-  title={TensorFlow based deep learning layer for Local Derivative Patterns},
-  author={Akgun, Devrim},
-  journal={Software Impacts},
-  volume={14},
-  pages={100452},
-  year={2022},
-  publisher={Elsevier}
-}
+
+References:
+
+[Akgun, Devrim. "TensorFlow based deep learning layer for Local Derivative Patterns." Software Impacts 14 (2022): 100452 https://doi.org/10.1016/j.simpa.2022.100452](https://www.sciencedirect.com/science/article/pii/S2665963822001361)
+
+https://github.com/dwday/lbp_tensorflow_python
+
+https://github.com/dwday/lbp_pytorch_python-
