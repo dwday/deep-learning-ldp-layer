@@ -38,7 +38,7 @@ test acc for model_base:  0.8875
 ![alt text](images/ldp_135.png)
 
 
-References:
+Reference study:
 
 [Akgun, Devrim. "TensorFlow based deep learning layer for Local Derivative Patterns." Software Impacts 14 (2022): 100452 https://doi.org/10.1016/j.simpa.2022.100452](https://www.sciencedirect.com/science/article/pii/S2665963822001361)
 
