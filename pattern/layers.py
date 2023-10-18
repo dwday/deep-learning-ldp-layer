@@ -24,10 +24,11 @@ class LDP(layers.Layer):
         super(LDP,self).build(input_shape)
     
    
-    def call(self, x):      
-        
+    def call(self, x):              
+        if x.shape[1]==None:
+            return x
         if  self.mode=='single'  and  self.alpha=='0':
-            z=tf_ldp0(x)
+            z=tf_ldp0(x)            
         elif self.mode=='single' and  self.alpha=='45':
             z=tf_ldp45(x)
         elif self.mode=='single' and  self.alpha=='90':
@@ -75,7 +76,9 @@ class LDP(layers.Layer):
 def tf_ldp0(Im):
     
     # -- PADDING
-    Im=tf.pad(Im, tf.constant([[0,0],[1,2],[1, 2],[0,0]]) )
+    # Im=tf.pad(Im, tf.constant([[0,0],[1,2],[1, 2],[0,0]]) )  
+    Im=tf.pad(Im, tf.constant([[0,0],[2,1],[2, 1],[0,0]]) )
+
     #------------------------------------------------------
     M=Im.shape[1]
     N=Im.shape[2]   
@@ -99,70 +102,73 @@ def tf_ldp0(Im):
     z=y11       
     pc=tf.subtract(y21,y22)
     #00--------------------------------
-    cond_true = tf.zeros(tf.shape(z),dtype=tf.uint8)      
-    cond_false = tf.add( cond_true,tf.constant(128,dtype='uint8') )
+    # cond_true  = tf.zeros(tf.shape(z),dtype=tf.float32)    
+    cond_true  = tf.multiply(z,0)     
+    cond_false = tf.math.add( cond_true,tf.constant(128.0,dtype=tf.float32) )
     d=tf.subtract(y10,y11)
     d=tf.multiply(d,pc)
-    g=tf.greater_equal(d,0)                       
-    z=tf.where(g,cond_true,cond_false)  
-    
+    g=tf.greater_equal(d,0)                 
+    z= tf.where(g,cond_true,cond_false)  
+
     #01--------------------------------
     cond_true = z       
     d=tf.subtract(y11,y12)
     d=tf.multiply(d,pc)
     g=tf.greater_equal(d,0) 
-    cond_false = tf.add( z,tf.constant(64,dtype='uint8') )                     
+    cond_false = tf.add( z,tf.constant(64.0,dtype=tf.float32) )                     
     z=tf.where(g,cond_true,cond_false)  
     #02--------------------------------
     cond_true = z      
     d=tf.subtract(y12,y13)
     d=tf.multiply(d,pc)
     g=tf.greater_equal(d,0) 
-    cond_false = tf.add(z,tf.constant(32,dtype='uint8') )                     
+    cond_false = tf.add(z,tf.constant(32.0,dtype=tf.float32) )                     
     z=tf.where(g,cond_true,cond_false) 
     #10-------------------------------
     cond_true = z      
     d=tf.subtract(y20,y21)
     d=tf.multiply(d,pc)
     g=tf.greater_equal(d,0)     
-    cond_false = tf.add( z,tf.constant(1,dtype='uint8') )                     
+    cond_false = tf.add( z,tf.constant(1.0,dtype=tf.float32) )                     
     z=tf.where(g,cond_true,cond_false) 
     #12-------------------------------
     cond_true = z       
     d=tf.subtract(y22,y23)
     d=tf.multiply(d,pc)
     g=tf.greater_equal(d,0) 
-    cond_false = tf.add( z,tf.constant(16,dtype='uint8') )                     
+    cond_false = tf.add( z,tf.constant(16.0,dtype=tf.float32) )                     
     z=tf.where(g,cond_true,cond_false)  
     #20-------------------------------
     cond_true = z       
     d=tf.subtract(y30,y31)
     d=tf.multiply(d,pc)
     g=tf.greater_equal(d,0) 
-    cond_false = tf.add( z,tf.constant(2,dtype='uint8') )                     
+    cond_false = tf.add( z,tf.constant(2.0,dtype=tf.float32) )                     
     z=tf.where(g,cond_true,cond_false) 
     #21-------------------------------
     cond_true = z       
     d=tf.subtract(y31,y32)
     d=tf.multiply(d,pc)
     g=tf.greater_equal(d,0) 
-    cond_false = tf.add( z,tf.constant(4,dtype='uint8') )                     
+    cond_false = tf.add( z,tf.constant(4.0,dtype=tf.float32) )                     
     z=tf.where(g,cond_true,cond_false) 
     #22-------------------------------
     cond_true = z        
     d=tf.subtract(y32,y33)
     d=tf.multiply(d,pc)
     g=tf.greater_equal(d,0) 
-    cond_false = tf.add( z,tf.constant(8,dtype='uint8') )                     
+    cond_false = tf.add( z,tf.constant(8.0,dtype=tf.float32) )                     
     z=tf.where(g,cond_true,cond_false) 
-    z=tf.cast(z,dtype=tf.float32)/255.0 
+    z=tf.divide(z,255.0 )   
     return z
 
 #******************************************************************************
 def tf_ldp45(Im):    
 
     # -- PADDING
-    Im=tf.pad(Im, tf.constant([[0,0],[1,2],[1, 2],[0,0]]) )
+    # Im=tf.pad(Im, tf.constant([[0,0],[1,2],[1, 2],[0,0]]) )
+    Im=tf.pad(Im, tf.constant([[0,0],[2,1],[2, 1],[0,0]]) )
+
     #--------------------------------------------------------------------------
     M=Im.shape[1]
     N=Im.shape[2]   
@@ -191,8 +197,9 @@ def tf_ldp45(Im):
     z=y11       
     pc=tf.subtract(y21,y12)
     #00-------------------------------- 
-    cond_true = tf.zeros(tf.shape(z),dtype=tf.uint8)      
-    cond_false = tf.add( cond_true,tf.constant(128,dtype='uint8') )
+    # cond_true = tf.zeros(tf.shape(z),dtype=tf.uint8)    
+    cond_true  = tf.multiply(z,0) 
+    cond_false = tf.add( cond_true,tf.constant(128,dtype=tf.float32) )
     d=tf.subtract(y10,y01)
     d=tf.multiply(d,pc)
     g=tf.greater_equal(d,0)                       
@@ -203,57 +210,60 @@ def tf_ldp45(Im):
     d=tf.subtract(y11,y02)
     d=tf.multiply(d,pc)
     g=tf.greater_equal(d,0) 
-    cond_false = tf.add( z,tf.constant(64,dtype='uint8') )                     
+    cond_false = tf.add( z,tf.constant(64,dtype=tf.float32) )                     
     z=tf.where(g,cond_true,cond_false)  
     #02--------------------------------
     cond_true = z      
     d=tf.subtract(y12,y03)
     d=tf.multiply(d,pc)
     g=tf.greater_equal(d,0) 
-    cond_false = tf.add(z,tf.constant(32,dtype='uint8') )                     
+    cond_false = tf.add(z,tf.constant(32,dtype=tf.float32) )                     
     z=tf.where(g,cond_true,cond_false) 
     #10-------------------------------
     cond_true = z      
     d=tf.subtract(y20,y11)
     d=tf.multiply(d,pc)
     g=tf.greater_equal(d,0)     
-    cond_false = tf.add( z,tf.constant(1,dtype='uint8') )                     
+    cond_false = tf.add( z,tf.constant(1,dtype=tf.float32) )                     
     z=tf.where(g,cond_true,cond_false) 
     #12-------------------------------
     cond_true = z       
     d=tf.subtract(y22,y13)
     d=tf.multiply(d,pc)
     g=tf.greater_equal(d,0) 
-    cond_false = tf.add( z,tf.constant(16,dtype='uint8') )                     
+    cond_false = tf.add( z,tf.constant(16,dtype=tf.float32) )                     
     z=tf.where(g,cond_true,cond_false)  
     #20-------------------------------
     cond_true = z       
     d=tf.subtract(y30,y21)
     d=tf.multiply(d,pc)
     g=tf.greater_equal(d,0) 
-    cond_false = tf.add( z,tf.constant(2,dtype='uint8') )                     
+    cond_false = tf.add( z,tf.constant(2,dtype=tf.float32) )                     
     z=tf.where(g,cond_true,cond_false) 
     #21-------------------------------
     cond_true = z       
     d=tf.subtract(y31,y22)
     d=tf.multiply(d,pc)
     g=tf.greater_equal(d,0) 
-    cond_false = tf.add( z,tf.constant(4,dtype='uint8') )                     
+    cond_false = tf.add( z,tf.constant(4,dtype=tf.float32) )                     
     z=tf.where(g,cond_true,cond_false) 
     #22-------------------------------
     cond_true = z        
     d=tf.subtract(y32,y23)
     d=tf.multiply(d,pc)
     g=tf.greater_equal(d,0) 
-    cond_false = tf.add( z,tf.constant(8,dtype='uint8') )                     
+    cond_false = tf.add( z,tf.constant(8,dtype=tf.float32) )                     
     z=tf.where(g,cond_true,cond_false)   
-    z=tf.cast(z,dtype=tf.float32)/255.0
+    # z=tf.cast(z,dtype=tf.float32)/255.0
+    z=tf.divide(z,255.0 ) 
     return z
 #------------------------------------------------------------------------------
 def tf_ldp90(Im):
 
     # -- PADDING
-    Im=tf.pad(Im, tf.constant([[0,0],[1,2],[1, 2],[0,0]]) )
+    # Im=tf.pad(Im, tf.constant([[0,0],[1,2],[1, 2],[0,0]]) )
+    Im=tf.pad(Im, tf.constant([[0,0],[2,1],[2, 1],[0,0]]) )
+
     #--------------------------------------------------------------------------
     M=Im.shape[1]
     N=Im.shape[2]   
@@ -282,8 +292,10 @@ def tf_ldp90(Im):
     z=y11       
     pc=tf.subtract(y21,y11)
     #00--------------------------------
-    cond_true = tf.zeros(tf.shape(z),dtype=tf.uint8)      
-    cond_false = tf.add( cond_true,tf.constant(128,dtype='uint8') )
+    # cond_true = tf.zeros(tf.shape(z),dtype=tf.uint8)   
+    cond_true  = tf.multiply(z,0) 
+
+    cond_false = tf.add( cond_true,tf.constant(128,dtype=tf.float32) )
     d=tf.subtract(y10,y00)
     d=tf.multiply(d,pc)
     g=tf.greater_equal(d,0)                       
@@ -294,58 +306,61 @@ def tf_ldp90(Im):
     d=tf.subtract(y11,y01)
     d=tf.multiply(d,pc)
     g=tf.greater_equal(d,0) 
-    cond_false = tf.add( z,tf.constant(64,dtype='uint8') )                     
+    cond_false = tf.add( z,tf.constant(64,dtype=tf.float32) )                     
     z=tf.where(g,cond_true,cond_false)  
     #02--------------------------------
     cond_true = z      
     d=tf.subtract(y12,y02)
     d=tf.multiply(d,pc)
     g=tf.greater_equal(d,0) 
-    cond_false = tf.add(z,tf.constant(32,dtype='uint8') )                     
+    cond_false = tf.add(z,tf.constant(32,dtype=tf.float32) )                     
     z=tf.where(g,cond_true,cond_false) 
     #10-------------------------------
     cond_true = z      
     d=tf.subtract(y20,y10)
     d=tf.multiply(d,pc)
     g=tf.greater_equal(d,0)     
-    cond_false = tf.add( z,tf.constant(1,dtype='uint8') )                     
+    cond_false = tf.add( z,tf.constant(1,dtype=tf.float32) )                     
     z=tf.where(g,cond_true,cond_false) 
     #12-------------------------------
     cond_true = z       
     d=tf.subtract(y22,y12)
     d=tf.multiply(d,pc)
     g=tf.greater_equal(d,0) 
-    cond_false = tf.add( z,tf.constant(16,dtype='uint8') )                     
+    cond_false = tf.add( z,tf.constant(16,dtype=tf.float32) )                     
     z=tf.where(g,cond_true,cond_false)  
     #20-------------------------------
     cond_true = z       
     d=tf.subtract(y30,y20)
     d=tf.multiply(d,pc)
     g=tf.greater_equal(d,0) 
-    cond_false = tf.add( z,tf.constant(2,dtype='uint8') )                     
+    cond_false = tf.add( z,tf.constant(2,dtype=tf.float32) )                     
     z=tf.where(g,cond_true,cond_false) 
     #21-------------------------------
     cond_true = z       
     d=tf.subtract(y31,y21)
     d=tf.multiply(d,pc)
     g=tf.greater_equal(d,0) 
-    cond_false = tf.add( z,tf.constant(4,dtype='uint8') )                     
+    cond_false = tf.add( z,tf.constant(4,dtype=tf.float32) )                     
     z=tf.where(g,cond_true,cond_false) 
     #22-------------------------------
     cond_true = z        
     d=tf.subtract(y32,y22)
     d=tf.multiply(d,pc)
     g=tf.greater_equal(d,0) 
-    cond_false = tf.add( z,tf.constant(8,dtype='uint8') )                     
+    cond_false = tf.add( z,tf.constant(8,dtype=tf.float32) )                     
     z=tf.where(g,cond_true,cond_false) 
-    z=tf.cast(z,dtype=tf.float32)/255.0    
+    # z=tf.cast(z,dtype=tf.float32)/255.0   
+    z=tf.divide(z,255.0 ) 
     return z
 
 #------------------------------------------------------------------------------
 def tf_ldp135(Im):
 
     # -- PADDING
-    Im=tf.pad(Im, tf.constant([[0,0],[1,2],[1, 2],[0,0]]) )
+    # Im=tf.pad(Im, tf.constant([[0,0],[1,2],[1, 2],[0,0]]) )
+    Im=tf.pad(Im, tf.constant([[0,0],[2,1],[2, 1],[0,0]]) )
+
     #--------------------------------------------------------------------------
     M=Im.shape[1]
     N=Im.shape[2]   
@@ -375,8 +390,10 @@ def tf_ldp135(Im):
     z=y11       
     pc=tf.subtract(y22,y11)
     #00--------------------------------
-    cond_true = tf.zeros(tf.shape(z),dtype=tf.uint8)      
-    cond_false = tf.add( cond_true,tf.constant(128,dtype='uint8') )
+    # cond_true = tf.zeros(tf.shape(z),dtype=tf.uint8)     
+    cond_true  = tf.multiply(z,0) 
+
+    cond_false = tf.add( cond_true,tf.constant(128,dtype=tf.float32) )
     d=tf.subtract(y11,y00)
     d=tf.multiply(d,pc)
     g=tf.greater_equal(d,0)                       
@@ -387,51 +404,52 @@ def tf_ldp135(Im):
     d=tf.subtract(y12,y01)
     d=tf.multiply(d,pc)
     g=tf.greater_equal(d,0) 
-    cond_false = tf.add( z,tf.constant(64,dtype='uint8') )                     
+    cond_false = tf.add( z,tf.constant(64,dtype=tf.float32) )                     
     z=tf.where(g,cond_true,cond_false)  
     #02--------------------------------
     cond_true = z      
     d=tf.subtract(y13,y02)
     d=tf.multiply(d,pc)
     g=tf.greater_equal(d,0) 
-    cond_false = tf.add(z,tf.constant(32,dtype='uint8') )                     
+    cond_false = tf.add(z,tf.constant(32,dtype=tf.float32) )                     
     z=tf.where(g,cond_true,cond_false) 
     #10-------------------------------
     cond_true = z      
     d=tf.subtract(y21,y10)
     d=tf.multiply(d,pc)
     g=tf.greater_equal(d,0)     
-    cond_false = tf.add( z,tf.constant(1,dtype='uint8') )                     
+    cond_false = tf.add( z,tf.constant(1,dtype=tf.float32) )                     
     z=tf.where(g,cond_true,cond_false) 
     #12-------------------------------
     cond_true = z       
     d=tf.subtract(y23,y12)
     d=tf.multiply(d,pc)
     g=tf.greater_equal(d,0) 
-    cond_false = tf.add( z,tf.constant(16,dtype='uint8') )                     
+    cond_false = tf.add( z,tf.constant(16,dtype=tf.float32) )                     
     z=tf.where(g,cond_true,cond_false)  
     #20-------------------------------
     cond_true = z       
     d=tf.subtract(y31,y20)
     d=tf.multiply(d,pc)
     g=tf.greater_equal(d,0) 
-    cond_false = tf.add( z,tf.constant(2,dtype='uint8') )                     
+    cond_false = tf.add( z,tf.constant(2,dtype=tf.float32) )                     
     z=tf.where(g,cond_true,cond_false) 
     #21-------------------------------
     cond_true = z       
     d=tf.subtract(y32,y21)
     d=tf.multiply(d,pc)
     g=tf.greater_equal(d,0) 
-    cond_false = tf.add( z,tf.constant(4,dtype='uint8') )                     
+    cond_false = tf.add( z,tf.constant(4,dtype=tf.float32) )                     
     z=tf.where(g,cond_true,cond_false) 
     #22-------------------------------
     cond_true = z        
     d=tf.subtract(y33,y22)
     d=tf.multiply(d,pc)
     g=tf.greater_equal(d,0) 
-    cond_false = tf.add( z,tf.constant(8,dtype='uint8') )                     
+    cond_false = tf.add( z,tf.constant(8,dtype=tf.float32) )                     
     z=tf.where(g,cond_true,cond_false)  
     
-    z=tf.cast(z,dtype=tf.float32)/255.0
+    # z=tf.cast(z,dtype=tf.float32)/255.0
+    z=tf.divide(z,255.0 ) 
     return z
 
