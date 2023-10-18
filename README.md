@@ -9,13 +9,13 @@ This repository contains the Local Derivative Patterns as a Deep Learning layer 
 ![alt text](images/hist_loss.png)
 
 ###  Evaluation on test dataset:
-model_ldp - test accuracies for example runs:
+  model_ldp - test accuracies for example runs:
 
-0.9342 0.9473, 0.9429, 0.9298, 0.8991, 0.9078, 0.9342, 0.9254, 0.9122, 0.9166 
+              0.9342 0.9473, 0.9429, 0.9298, 0.8991, 0.9078, 0.9342, 0.9254, 0.9122, 0.9166 
 
-model_base - test accuracies for example runs:
+  model_base - test accuracies for example runs:
 
-0.9122, 0.9035, 0.9035, 0.8947, 0.9035, 0.9078, 0.9210, 0.8991, 0.9078, 0.9122
+              0.9122, 0.9035, 0.9035, 0.8947, 0.9035, 0.9078, 0.9210, 0.8991, 0.9078, 0.9122
 
 
 ## Example usages:
