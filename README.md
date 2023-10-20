@@ -1,4 +1,4 @@
-# A custom TensorFlow layer for local derivative patterns 
+# A new deep learning layer using local derivative patterns 
 
 This repository contains the Local Derivative Patterns as a Deep Learning layer implemented in the paper. The example on LFW - Labeled Faces in the Wild dataset compares a model with LDP layers and a baseline CNN model. 
 ## Example evaluation on LFW - Labeled Faces in the Wild dataset: ldp_test.py
